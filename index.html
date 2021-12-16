@@ -1,0 +1,61 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Frameset//EN">
+
+<!DOCTYPE html><HTML><HEAD><TITLE>Real-time HTML Editor</TITLE>
+<META content="text/html; charset=unicode" http-equiv="Content-Type">
+<SCRIPT type="text/javascript">
+
+var editboxHTML = 
+'<html class="expand close">' +
+'<head>' +
+'<style type="text/css">' +
+'.expand { width: 100%; height: 100%; }' +
+'.close { border: none; margin: 0px; padding: 0px; }' +
+'html,body { overflow: hidden; }' +
+'<\/style>' +
+'<\/head>' +
+'<body class="expand close" onload="document.f.ta.focus(); document.f.ta.select();">' +
+'<form class="expand close" name="f">' +
+'<textarea class="expand close" style="background: #def;" name="ta" wrap="hard" spellcheck="false">' +
+'<\/textarea>' +
+'<\/form>' +
+'<\/body>' +
+'<\/html>';
+
+var defaultStuff = '<h3>Welcome to the real-time HTML editor!<\/h3>\n' +
+'<p>Type HTML in the textarea above, and it will magically appear in the frame below.<\/p>';
+
+// I don't want this stuff to appear in the box at the top because I feel it's likely to be distracting.
+var extraStuff = '<div style="position:absolute; margin:.3em; bottom:0em; right:0em;"><small>\n  Created by <a href="https://hpitgroup.glitch.me/" target="_top">HARUN PEHLİVAN <\/a> and hosted by <a href="https://webcalisma.glitch.me/" target="_top"> WEB ÇALIŞMA <\/a>.\n<\/small><\/div>';
+
+var old = '';
+         
+function init()
+{
+  window.editbox.document.write(editboxHTML);
+  window.editbox.document.close();
+  window.editbox.document.f.ta.value = defaultStuff;
+  update();
+}
+
+function update()
+{
+  var textarea = window.editbox.document.f.ta;
+  var d = dynamicframe.document; 
+
+  if (old != textarea.value) {
+    old = textarea.value;
+    d.open();
+    d.write(old);
+    if (old.replace(/[\r\n]/g,'') == defaultStuff.replace(/[\r\n]/g,''))
+      d.write(extraStuff);
+    d.close();
+  }
+
+  window.setTimeout(update, 150);
+}
+
+</SCRIPT>
+
+<META name="GENERATOR" content="MSHTML 9.00.8112.16447"></HEAD><FRAMESET onload="init();" 
+rows="50%,*" resizable="yes"><FRAME src="javascript:'';" name="editbox"><FRAME 
+src="javascript:'';" name="dynamicframe"></FRAMESET></HTML>
